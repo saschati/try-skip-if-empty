@@ -17,6 +17,17 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
+      - name: Check for changes
+        id: check_changes
+        run: |
+          changed_files=$(git diff --name-only ${{ github.event.before }} ${{ github.event.after }})
+          echo "::set-output name=changed_files::$changed_files"
+
+      - name: Skip if no changes
+        if: ${{ steps.check_changes.outputs.changed_files != '' && contains(steps.check_changes.outputs.changed_files, 'app/check') }}
+        run: echo "Skipping job because there are no changes in app/check"
+        continue-on-error: true # Додаємо `continue-on-error: true`, щоб запобігти виходу з робочого процесу у випадку пропуску завдання
+
       - name: Run test
         run: |
           echo "toJson(github.event.head_commit.[modified|added|remove])"
