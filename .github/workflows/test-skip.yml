@@ -1,0 +1,17 @@
+name: Skip github actions when no added files or changed in app/check folder
+
+on:
+  push:
+    branches: ['main']
+
+jobs:
+  try-skip-if-empty:
+    if: ${{ github.event_name == 'push' && (contains(github.event.head_commit.added, 'app/check') || contains(github.event.head_commit.modified, 'app/check')) }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Run test
+        run: |
+          echo "Hello world"
