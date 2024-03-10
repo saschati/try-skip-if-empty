@@ -22,6 +22,9 @@ jobs:
           echo "toJson(github.event.head_commit)"
           echo "${{ toJson(github.event.head_commit) }}"
           
+          echo "toJson(github.event.commits[0])"
+          echo "${{ toJson(github.event.commits[0]) }}"
+          
           echo "contains(github.event.head_commit.[added|remove|modified], 'app/check')"
           echo "${{ contains(github.event.head_commit.added, 'app/check') }}"
           echo "${{ contains(github.event.head_commit.remove, 'app/check') }}"
