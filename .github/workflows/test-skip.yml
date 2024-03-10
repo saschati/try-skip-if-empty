@@ -8,6 +8,11 @@ jobs:
   try-skip-if-empty:
 #    if: ${{ github.event_name == 'push' && (contains(github.event.head_commit.added, 'app/check') || contains(github.event.head_commit.modified, 'app/check')) }}
     runs-on: ubuntu-latest
+
+    permissions:
+      contents: read
+      packages: write
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -21,9 +26,6 @@ jobs:
           
           echo "toJson(github.event.head_commit)"
           echo "${{ toJson(github.event.head_commit) }}"
-          
-          echo "toJson(github.event.commits[0])"
-          echo "${{ toJson(github.event.commits[0]) }}"
           
           echo "contains(github.event.head_commit.[added|remove|modified], 'app/check')"
           echo "${{ contains(github.event.head_commit.added, 'app/check') }}"
